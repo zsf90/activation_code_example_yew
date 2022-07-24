@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="zh-hans"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yew 简单激活码生成练习项目</title>
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+        }
+    </style>
+
+<link rel="preload" href="/safety_activation_code-5a0ea9ca4fa569d4_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/safety_activation_code-5a0ea9ca4fa569d4.js"></head>
+
+<body>
+
+
+
+<script type="module">import init from '/safety_activation_code-5a0ea9ca4fa569d4.js';init('/safety_activation_code-5a0ea9ca4fa569d4_bg.wasm');</script><script>(function () {
+    var protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    var url = protocol + '//' + window.location.host + '/_trunk/ws';
+    var poll_interval = 5000;
+    var reload_upon_connect = () => {
+        window.setTimeout(
+            () => {
+                // when we successfully reconnect, we'll force a
+                // reload (since we presumably lost connection to
+                // trunk due to it being killed, so it will have
+                // rebuilt on restart)
+                var ws = new WebSocket(url);
+                ws.onopen = () => window.location.reload();
+                ws.onclose = reload_upon_connect;
+            },
+            poll_interval);
+    };
+
+    var ws = new WebSocket(url);
+    ws.onmessage = (ev) => {
+        const msg = JSON.parse(ev.data);
+        if (msg.reload) {
+            window.location.reload();
+        }
+    };
+    ws.onclose = reload_upon_connect;
+})()
+</script></body></html>
